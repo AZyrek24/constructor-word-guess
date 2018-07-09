@@ -2,33 +2,23 @@
 var colors = require('colors');
 
 function Letter(strValue) {
-  this.strValue = strValue;
-  this.guessed = false;
+  this.strValue = strValue.toUpperCase();
+  this.guessedRight = false;
   this.charReturn = function () {
-    if (this.guessed) {
+    if (this.guessedRight) {
       console.log("Correct!".green)
       return strValue;
     }
-    else if (!this.guessed) {
+    else if (!this.guessedRight) {
       console.log("Wrong!".red)
       return "_";
     }
   };
   this.checkGuess = function (guessedLetter) {
-    if (guessedLetter === strValue) {
-      this.guessed = true;
+    if (guessedLetter.toUpperCase() === strValue) {
+      this.guessedRight = true;
     }
-    this.charReturn();
   };
 };
 
-
-
-var letter = new Letter("p");
-
-
-letter.checkGuess("q");
-
-// module.exports = {
-//   letter: letter
-// }
+module.exports = Letter;
