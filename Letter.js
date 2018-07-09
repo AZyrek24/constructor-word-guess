@@ -1,13 +1,16 @@
+//Colors package
+var colors = require('colors');
+
 function Letter(strValue) {
   this.strValue = strValue;
   this.guessed = false;
   this.charReturn = function () {
     if (this.guessed) {
-      console.log("Correct!")
+      console.log("Correct!".green)
       return strValue;
     }
     else if (!this.guessed) {
-      console.log("Wrong!")
+      console.log("Wrong!".red)
       return "_";
     }
   };
@@ -24,8 +27,8 @@ function Letter(strValue) {
 var letter = new Letter("p");
 
 
-letter.checkGuess("p");
+letter.checkGuess("q");
 
-module.exports = {
-  letter: letter
-}
+// module.exports = {
+//   letter: letter
+// }
