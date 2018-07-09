@@ -11,6 +11,9 @@ var guessesRemaining = 9;
 
 // Functions
 //======================================================================================
+function start() {
+  instructions();
+}
 function instructions() {
   inquirer.prompt([{
     name: "guess",
@@ -19,7 +22,7 @@ function instructions() {
       if (value.length === 1 && value.match(/^[a-zA-Z]+$/)) {
         return true;
       }
-      console.log("\nMust be a single letter. Try Again!");
+      console.log("\nMust be a " + "SINGLE LETTER.".blue + "Try Again!");
       return false;
     },
   }
@@ -32,4 +35,4 @@ function instructions() {
 
 // Main Process
 //======================================================================================
-instructions();
+start();
