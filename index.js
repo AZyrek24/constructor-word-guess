@@ -16,10 +16,10 @@ function instructions() {
     name: "guess",
     message: "Guess a Letter!",
     validate: function (value) {
-      if (value.length === 1 && value.match(/^[a-z]+$/)) {
+      if (value.length === 1 && value.match(/^[a-zA-Z]+$/)) {
         return true;
       }
-      console.log("\nUnacceptable");
+      console.log("\nMust be a single letter. Try Again!");
       return false;
     },
   }
