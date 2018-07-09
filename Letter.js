@@ -1,6 +1,4 @@
-//Colors package
-var colors = require('colors');
-
+//Letter constructor
 function Letter(strValue) {
   this.strValue = strValue.toUpperCase();
   this.guessedRight = false;

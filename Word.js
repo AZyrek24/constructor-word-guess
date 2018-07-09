@@ -1,5 +1,6 @@
 var Letter = require("./Letter.js");
 
+//Word constructor
 var Word = function (randomWord) {
   this.randomWord = randomWord;
   this.lettersArray = [];
@@ -18,6 +19,8 @@ var Word = function (randomWord) {
     console.log(this.lettersArray);
   }
 }
+
+module.exports = Word;
 
 
 
