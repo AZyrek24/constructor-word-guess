@@ -8,14 +8,14 @@ var Word = function (randomWord) {
     for (var i = 0; i < this.letterObjectsArray.length; i++) {
       wordtoGuess += this.letterObjectsArray[i].charReturn() + " ";
     }
-    console.log(wordtoGuess);
+    console.log(wordtoGuess + "\n");
     return wordtoGuess;
   }
   this.newLetterGuessed = function (guessedLetter) {
     for (var i = 0; i < this.letterObjectsArray.length; i++) {
       this.letterObjectsArray[i].checkGuess(guessedLetter);
     }
-    newWord.wordDisplayBuilder();
+    this.wordDisplayBuilder();
   }
 }
 

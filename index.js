@@ -7,14 +7,17 @@ var fs = require("fs");
 // Variables
 //======================================================================================
 var guessesRemaining = 9;
-var wordArray = [];
-var pickedWord = "";
+var randomWord = "";
 
 // Functions
 //======================================================================================
+
+//Starts the game
 function start() {
+  console.log("\n");
   pickWord();
 }
+//Asks to guess a letter, checks that it is a single letter and not a symbol or number, then runs newLetterGuessed() function
 function instructions() {
   inquirer.prompt([{
     name: "guess",
@@ -27,21 +30,22 @@ function instructions() {
       return false;
     },
   }
-  ]).then(function (answers) {
-    console.log(answers.guess.toUpperCase());
+  ]).then(function (answer) {
+    randomWord.newLetterGuessed(answer);
   });
 }
+//Picks a random word out of the wordlist.txt data
 function pickWord() {
   fs.readFile("wordlist.txt", "utf8", function (error, data) {
     // If the code experiences any errors it will log the error to the console.
     if (error) {
       return console.log(error);
     }
-    //Creates and array of words (from the wordlist.txt data) to select a random word from 
     wordArray = data.split(",");
-    pickedWord = wordArray[Math.floor(Math.random() * wordArray.length)];
-    var randomWord = new Word(pickedWord);
-    randomWord.makeWordDisplay(randomWord);
+    var pickedWord = wordArray[Math.floor(Math.random() * wordArray.length)];
+    randomWord = new Word(pickedWord);
+    randomWord.wordDisplayBuilder();
+    instructions();
   });
 }
 
