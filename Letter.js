@@ -2,13 +2,11 @@
 function Letter(letterVal) {
   this.letterVal = letterVal.toUpperCase();
   this.guessedRight = false;
-  this.charReturn = function () {
+  this.charReturn = function (letter) {
     if (this.guessedRight) {
-      console.log("Correct!");
       return this.letterVal;
     }
     else {
-      console.log("Incorrect!");
       return "_";
     }
   };
@@ -22,6 +20,5 @@ function Letter(letterVal) {
     }
   };
 };
-var newLetter = new Letter("A");
-newLetter.checkGuess("A")
+
 module.exports = Letter;
