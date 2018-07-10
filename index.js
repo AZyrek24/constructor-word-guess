@@ -1,5 +1,4 @@
 var Word = require("./Word");
-var Letter = require("./Letter");
 //Node Packages
 //======================================================================================
 var colors = require("colors");
@@ -40,9 +39,9 @@ function pickWord() {
     }
     //Creates and array of words (from the wordlist.txt data) to select a random word from 
     wordArray = data.split(",");
-    console.log(wordArray);
     pickedWord = wordArray[Math.floor(Math.random() * wordArray.length)];
-    console.log(pickedWord);
+    var randomWord = new Word(pickedWord);
+    randomWord.makeWordDisplay(randomWord);
   });
 }
 

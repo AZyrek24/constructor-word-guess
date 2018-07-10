@@ -4,9 +4,13 @@ var Letter = require("./Letter.js");
 var Word = function (randomWord) {
   this.randomWord = randomWord;
   this.lettersArray = [];
-  this.makeWord = function () {
+  this.makeWordDisplay = function (pickedWord) {
     (this.randomWord).split("").forEach(element => {
       this.lettersArray.push(new Letter(element));
+      this.lettersArray.forEach(element => {
+        this.lettersArray.charReturn(this.lettersArray);
+        console.log(this.lettersArray);
+      })
     });
     this.toString = function () {
       return this.lettersArray.join(" ");

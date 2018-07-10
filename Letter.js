@@ -1,22 +1,28 @@
 //Letter constructor
-function Letter(strValue) {
-  this.strValue = strValue.toUpperCase();
+function Letter(letterVal) {
+  this.letterVal = letterVal.toUpperCase();
   this.guessedRight = false;
-  this.charReturn = function () {
+  this.charReturn = function (guessedLetter) {
     if (this.guessedRight) {
-      console.log("Correct!".green)
-      return strValue;
+      console.log("Correct!");
+      return letterVal;
     }
-    else if (!this.guessedRight) {
-      console.log("Wrong!".red)
+    else {
+      console.log("Incorrect!");
       return "_";
     }
   };
   this.checkGuess = function (guessedLetter) {
-    if (guessedLetter.toUpperCase() === strValue) {
+    if (guessedLetter === this.letterVal) {
       this.guessedRight = true;
+      this.charReturn();
+    }
+    else {
+      this.charReturn();
     }
   };
 };
 
+var newWord = new Letter("H");
+newWord.checkGuess("H");
 module.exports = Letter;
