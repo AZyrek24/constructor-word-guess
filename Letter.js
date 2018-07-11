@@ -1,3 +1,7 @@
+//Node Packages
+//======================================================================================
+var colors = require("colors");
+
 //Letter constructor
 function Letter(letterVal) {
   this.letterVal = letterVal.toUpperCase();
@@ -13,6 +17,7 @@ function Letter(letterVal) {
   this.checkGuess = function (guessedLetter) {
     if (guessedLetter === this.letterVal) {
       this.guessedRight = true;
+      
     }
   };
 };
