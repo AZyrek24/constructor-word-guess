@@ -8,18 +8,19 @@ var fs = require("fs");
 //======================================================================================
 var guessesRemaining = 9;
 var pickedWord = "";
+//Arrays
+//======================================================================================
 var pickedWordArray = [];
 var arrayOfLettersRemaining = [];
 var pickedWordLetterObjects;
 var guessedLetters = [];
-var win = false;
 // Functions
 //======================================================================================
 
 //Starts the game
 function start() {
+  console.log("\nWord Topic: " + "Music Genres\n".green);
   guessesRemaining = 9;
-  console.log("\n");
   pickWord();
 }
 //Picks a random word out of the 'wordlist.txt' data
@@ -29,12 +30,12 @@ function pickWord() {
     if (error) {
       return console.log(error);
     }
-    wordArray = data.split(",");    
+    wordArray = data.split(",");
     pickedWord = wordArray[Math.floor(Math.random() * wordArray.length)];
 
     //Sets array to compare as guesses occur
     pickedWordArray = pickedWord.split("");
-    
+
     //Call Word constructor
     pickedWordLetterObjects = new Word(pickedWord);
     pickedWordLetterObjects.wordDisplayBuilder();
@@ -59,30 +60,38 @@ function instructions() {
       },
     }
     ]).then(function (answer) {
-      pickedWordLetterObjects.newLetterGuessed(answer.guess.toUpperCase().trim());
+      var guess = answer.guess.toUpperCase().trim();
+
+      //Checks if letter guessed is correct and displays letters and blanks accordingly
+      pickedWordLetterObjects.newLetterGuessed(guess);
       pickedWordLetterObjects.wordDisplayBuilder();
-      arrayOfLettersRemaining = pickedWordArray.filter(function (element) { return element !== answer.guess.toUpperCase().trim()});
+
+      //Stores guessed letters in an array
+      guessedLetters.push(guess);
+      console.log(guessedLetters);
+
+      //Removes guessed letters from this array
+      for (var i = 0; i < arrayOfLettersRemaining.length; i++) {
+        arrayOfLettersRemaining = pickedWordArray.filter(function (element) { return element !== guess });
+      }
       console.log(arrayOfLettersRemaining);
+      //Checks if game is over with a win or loss
+      checkIfWon();
       instructions();
     });
   }
-  else if (win === true) {
-    win();
-  }
-  else if (guessesRemaining < 0) {
-    console.log("You Lose! Try Again!!!");
-    start();
-  }
-}
-//If user wins, start with a new word
-function win() {
-  console.log("You Win!! Try another one!!!".green);
-  start();
-}
-function lose() {
-  console.log("You Lost!! Try another one!!!".red);
 }
 
+//If user wins, start with a new word
+function checkIfWon() {
+  if (arrayOfLettersRemaining.length < 1) {
+    console.log("You Win!! Try another one!!!".green);
+    start();
+  }
+  else if (guessesRemaining < 1) {
+    console.log("You Lost!! Try another one!!!".red);
+  }
+}
 // Main Process
 //======================================================================================
 start();
