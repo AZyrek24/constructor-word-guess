@@ -13,10 +13,6 @@ function Letter(letterVal) {
   this.checkGuess = function (guessedLetter) {
     if (guessedLetter === this.letterVal) {
       this.guessedRight = true;
-      this.charReturn();
-    }
-    else {
-      this.charReturn();
     }
   };
 };

@@ -14,12 +14,14 @@ var randomWord = "";
 
 //Starts the game
 function start() {
+  guessesRemaining = 9;
   console.log("\n");
   pickWord();
 }
-//Asks to guess a letter, checks that it is a single letter and not a symbol or number, then runs newLetterGuessed() function
+//Asks to guess a letter, validates a single letter, runs newLetterGuessed()
 function instructions() {
   inquirer.prompt([{
+    type: "input",
     name: "guess",
     message: "Guess a Letter!",
     validate: function (value) {
@@ -31,10 +33,11 @@ function instructions() {
     },
   }
   ]).then(function (answer) {
-    randomWord.newLetterGuessed(answer);
+    randomWord.newLetterGuessed(answer.guess.toUpperCase());
+    randomWord.wordDisplayBuilder();
   });
 }
-//Picks a random word out of the wordlist.txt data
+//Picks a random word out of the 'wordlist.txt' data
 function pickWord() {
   fs.readFile("wordlist.txt", "utf8", function (error, data) {
     // If the code experiences any errors it will log the error to the console.

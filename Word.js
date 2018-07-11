@@ -2,7 +2,7 @@ var Letter = require("./Letter.js");
 
 //Word constructor
 var Word = function (randomWord) {
-  this.letterObjectsArray = randomWord.split('').map(function (element) { return new Letter(element) });
+  this.letterObjectsArray = randomWord.split('').map(function(element) { return new Letter(element) });
   this.wordDisplayBuilder = function () {
     var wordtoGuess = "";
     for (var i = 0; i < this.letterObjectsArray.length; i++) {
@@ -15,18 +15,7 @@ var Word = function (randomWord) {
     for (var i = 0; i < this.letterObjectsArray.length; i++) {
       this.letterObjectsArray[i].checkGuess(guessedLetter);
     }
-    this.wordDisplayBuilder();
   }
 }
-
-module.exports = Word;
-
-
-
-
-
-
-
-
 
 module.exports = Word;
