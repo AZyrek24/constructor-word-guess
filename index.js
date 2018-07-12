@@ -8,8 +8,7 @@ var fs = require("fs");
 //======================================================================================
 var guessesRemaining = 9;
 var pickedWord = "";
-var win = false;
-var count = 1;
+var winOrLose = false;
 //Arrays
 //======================================================================================
 var pickedWordArray = [];
@@ -20,10 +19,11 @@ var guessedLetters = [];
 
 //Starts the game
 function start() {
-  console.log("\nWord Topic: " + "Music Genres\n".blue);
   guessesRemaining = 9;
   guessedLetters = [];
-  win = false;
+  winOrLose = false;
+  console.log("\nWord Topic: " + "Music Genres\n".blue);
+  console.log("Guesses Remaining: ".blue + guessesRemaining);
   pickWord();
 }
 //Picks a random word out of the 'wordlist.txt' data
@@ -64,21 +64,28 @@ function instructions() {
   ]).then(function (answer) {
     var guess = answer.guess.toUpperCase().trim();
 
+    //Stores guessed letters in an array
+    guessedLetters.push(guess);    
+
+    //Checks is a guess is incorrect, changes guesses remaining accordingly
+    if (pickedWord.indexOf(guess) == -1) {
+      guessesRemaining--;
+    }
+    //Displays relative information in the console
+    console.log("\nWord Topic: " + "Music Genres\n".blue);
+    console.log("Guesses Remaining: ".blue + guessesRemaining);
+    console.log("Guessed Letters: " + guessedLetters.join(" "));
+
     //Checks if letter guessed is correct
     pickedWordLetterObjects.newLetterGuessed(guess);
-
-    //Stores guessed letters in an array
-    guessedLetters.push(guess);
-    console.log(guessedLetters);
 
     //Removes correctly guessed letters from this array
     pickedWordArray = pickedWordArray.filter(function (letter) { return letter != guess });
     console.log(pickedWordArray);
     //Checks if game is over with a win or loss
     checkIfWon();
-    count++;
-    if (win !== true) {
-      instructions();
+    if (winOrLose !== true) {
+        instructions();
     }
     else {
       start();
@@ -89,14 +96,12 @@ function instructions() {
 //If user wins, start with a new word
 function checkIfWon() {
   if (pickedWordArray.length < 1) {
-    win = true;
+    winOrLose = true;
     console.log("You Win!! Try another one!!!".green);
   }
   else if (guessesRemaining < 1) {
+    winOrLose = true;
     console.log("You Lost!! Try another one!!!".red);
-  }
-  else {
-    return;
   }
 }
 // Main Process
