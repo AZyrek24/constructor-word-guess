@@ -8,19 +8,22 @@ var fs = require("fs");
 //======================================================================================
 var guessesRemaining = 9;
 var pickedWord = "";
+var win = false;
+var count = 1;
 //Arrays
 //======================================================================================
 var pickedWordArray = [];
-var arrayOfLettersRemaining = [];
-var pickedWordLetterObjects;
+var pickedWordLetterObjects = "";
 var guessedLetters = [];
 // Functions
 //======================================================================================
 
 //Starts the game
 function start() {
-  console.log("\nWord Topic: " + "Music Genres\n".green);
+  console.log("\nWord Topic: " + "Music Genres\n".blue);
   guessesRemaining = 9;
+  guessedLetters = [];
+  win = false;
   pickWord();
 }
 //Picks a random word out of the 'wordlist.txt' data
@@ -30,8 +33,8 @@ function pickWord() {
     if (error) {
       return console.log(error);
     }
-    wordArray = data.split(",");
-    pickedWord = wordArray[Math.floor(Math.random() * wordArray.length)];
+    pickedWordArray = data.split(",");
+    pickedWord = pickedWordArray[Math.floor(Math.random() * pickedWordArray.length)];
 
     //Sets array to compare as guesses occur
     pickedWordArray = pickedWord.split("");
@@ -45,51 +48,55 @@ function pickWord() {
 
 //Asks to guess a letter, validates a single letter, runs newLetterGuessed()
 function instructions() {
-  if (win === false || guessesRemaining > 0) {
-    inquirer.prompt([{
-      type: "input",
-      name: "guess",
-      message: "Guess a Letter!",
-      validate: function (value) {
-        var input = value.trim();
-        if (input.length === 1 && input.match(/^[a-zA-Z]+$/)) {
-          return true;
-        }
-        console.log("\nMust be a " + "SINGLE LETTER.".blue + "Try Again!");
-        return false;
-      },
-    }
-    ]).then(function (answer) {
-      var guess = answer.guess.toUpperCase().trim();
-
-      //Checks if letter guessed is correct and displays letters and blanks accordingly
-      pickedWordLetterObjects.newLetterGuessed(guess);
-      pickedWordLetterObjects.wordDisplayBuilder();
-
-      //Stores guessed letters in an array
-      guessedLetters.push(guess);
-      console.log(guessedLetters);
-
-      //Removes guessed letters from this array
-      for (var i = 0; i < arrayOfLettersRemaining.length; i++) {
-        arrayOfLettersRemaining = pickedWordArray.filter(function (element) { return element !== guess });
+  inquirer.prompt([{
+    type: "input",
+    name: "guess",
+    message: "Guess a Letter!",
+    validate: function (value) {
+      var input = value.trim();
+      if (input.length === 1 && input.match(/^[a-zA-Z]+$/)) {
+        return true;
       }
-      console.log(arrayOfLettersRemaining);
-      //Checks if game is over with a win or loss
-      checkIfWon();
-      instructions();
-    });
+      console.log("\nMust be a " + "SINGLE LETTER.".blue + "Try Again!");
+      return false;
+    },
   }
+  ]).then(function (answer) {
+    var guess = answer.guess.toUpperCase().trim();
+
+    //Checks if letter guessed is correct
+    pickedWordLetterObjects.newLetterGuessed(guess);
+
+    //Stores guessed letters in an array
+    guessedLetters.push(guess);
+    console.log(guessedLetters);
+
+    //Removes correctly guessed letters from this array
+    pickedWordArray = pickedWordArray.filter(function (letter) { return letter != guess });
+    console.log(pickedWordArray);
+    //Checks if game is over with a win or loss
+    checkIfWon();
+    count++;
+    if (win !== true) {
+      instructions();
+    }
+    else {
+      start();
+    }
+  });
 }
 
 //If user wins, start with a new word
 function checkIfWon() {
-  if (arrayOfLettersRemaining.length < 1) {
+  if (pickedWordArray.length < 1) {
+    win = true;
     console.log("You Win!! Try another one!!!".green);
-    start();
   }
   else if (guessesRemaining < 1) {
     console.log("You Lost!! Try another one!!!".red);
+  }
+  else {
+    return;
   }
 }
 // Main Process
