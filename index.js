@@ -6,7 +6,7 @@ var inquirer = require("inquirer");
 var fs = require("fs");
 // Variables
 //======================================================================================
-var guessesRemaining = 6;
+var guessesRemaining = 9;
 var pickedWord = "";
 var winOrLose = false;
 //Arrays
@@ -80,7 +80,7 @@ function instructions() {
     console.log("W O R D   G U E S S   G A M E".yellow);
     console.log("=============================".yellow);
     console.log("\nWord Topic: ".cyan + "Music Genres".blue);
-    //Checks is a guess is incorrect, changes guesses remaining accordingly
+    //Checks is a guess is incorrect, changes guesses remaining accordingly, updates display
     if (pickedWord.indexOf(guess) == -1) {
       guessesRemaining--;
       console.log("\n-----------------------------".red);
@@ -94,10 +94,10 @@ function instructions() {
     }
     console.log("\n=============================".blue);
     console.log("Guesses Remaining: ".blue + guessesRemaining);
-    console.log("Guessed Letters: ".magenta + guessedLetters.join(" "));
+    console.log("Guessed Letters: ".yellow + guessedLetters.join(" ").yellow);
     console.log("=============================".blue);
 
-    //Checks if letter guessed is correct
+    //Checks if letter guessed is correct in Word.js
     pickedWordLetterObjects.newLetterGuessed(guess);
 
     //Removes correctly guessed letters from this array
@@ -114,7 +114,7 @@ function instructions() {
   });
 }
 
-//If user wins, start with a new word
+//If user wins or loses, logs appropriate text
 function checkIfWon() {
   if (pickedWordArray.length < 1) {
     winOrLose = true;
