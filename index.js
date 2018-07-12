@@ -1,15 +1,15 @@
 var Word = require("./Word");
-//Node Packages
+// Node Packages
 //======================================================================================
 var colors = require("colors");
 var inquirer = require("inquirer");
 var fs = require("fs");
-// Variables
+// Global Variables
 //======================================================================================
 var guessesRemaining = 9;
 var pickedWord = "";
 var winOrLose = false;
-//Arrays
+// Arrays
 //======================================================================================
 var pickedWordArray = [];
 var pickedWordLetterObjects = "";
@@ -17,9 +17,9 @@ var guessedLetters = [];
 // Functions
 //======================================================================================
 
-//Starts the game
+// Starts the game
 function start() {
-  guessesRemaining = 6;
+  guessesRemaining = 9;
   guessedLetters = [];
   winOrLose = false;
   console.log("=============================".yellow);
@@ -31,7 +31,7 @@ function start() {
   console.log("=============================".blue);
   pickWord();
 }
-//Picks a random word out of the 'wordlist.txt' data
+// Picks a random word out of the 'wordlist.txt' data
 function pickWord() {
   fs.readFile("wordlist.txt", "utf8", function (error, data) {
     // If the code experiences any errors it will log the error to the console.
@@ -41,17 +41,17 @@ function pickWord() {
     pickedWordArray = data.split(",");
     pickedWord = pickedWordArray[Math.floor(Math.random() * pickedWordArray.length)];
 
-    //Sets array to compare as guesses occur
+    // Sets array to compare as guesses occur
     pickedWordArray = pickedWord.split("");
 
-    //Call Word constructor
+    // Call Word constructor
     pickedWordLetterObjects = new Word(pickedWord);
     pickedWordLetterObjects.wordDisplayBuilder();
     instructions();
   });
 }
 
-//Asks to guess a letter, validates a single letter, runs newLetterGuessed()
+// Asks to guess a letter, validates a single letter, runs newLetterGuessed()
 function instructions() {
   inquirer.prompt([{
     type: "input",
@@ -71,16 +71,16 @@ function instructions() {
   ]).then(function (answer) {
     var guess = answer.guess.toUpperCase().trim();
 
-    //Stores guessed letters in an array
+    // Stores guessed letters in an array
     guessedLetters.push(guess);
 
 
-    //Displays relative information in the console
+    // Displays relative information in the console
     console.log("=============================".yellow);
     console.log("W O R D   G U E S S   G A M E".yellow);
     console.log("=============================".yellow);
     console.log("\nWord Topic: ".cyan + "Music Genres".blue);
-    //Checks is a guess is incorrect, changes guesses remaining accordingly, updates display
+    // Checks is a guess is incorrect, changes guesses remaining accordingly, updates display
     if (pickedWord.indexOf(guess) == -1) {
       guessesRemaining--;
       console.log("\n-----------------------------".red);
@@ -97,13 +97,13 @@ function instructions() {
     console.log("Guessed Letters: ".yellow + guessedLetters.join(" ").yellow);
     console.log("=============================".blue);
 
-    //Checks if letter guessed is correct in Word.js
+    // Checks if letter guessed is correct in Word.js
     pickedWordLetterObjects.newLetterGuessed(guess);
 
-    //Removes correctly guessed letters from this array
+    // Removes correctly guessed letters from this array
     pickedWordArray = pickedWordArray.filter(function (letter) { return letter != guess });
 
-    //Checks if game is over with a win or loss
+    // Checks if game is over with a win or loss
     checkIfWon();
     if (winOrLose !== true) {
       instructions();
@@ -114,7 +114,7 @@ function instructions() {
   });
 }
 
-//If user wins or loses, logs appropriate text
+// If user wins or loses, logs appropriate text
 function checkIfWon() {
   if (pickedWordArray.length < 1) {
     winOrLose = true;
